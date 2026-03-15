@@ -1,8 +1,8 @@
 """
-DQN エージェント（Experience Replay なし版）
+DQN エージェント（Experience Replay なし版）。
 
-各遷移 (s, a, r, s') をその場で1回だけ使ってQネットワークを更新する。
-バッファに貯めてミニバッチ学習する通常のDQNとは異なり、オンラインで1ステップずつ学習する。
+得た遷移 (s, a, r, s', done) をその場で 1 回だけ使い、Q ネットワークを更新する。
+Replay バッファは使わず、オンラインで 1 ステップずつ学習する。終端（done）では次状態の Q を使わない。
 """
 
 import numpy as np
@@ -17,64 +17,56 @@ GAMMA = 0.99
 
 
 def _to_tensor(x, dtype=torch.float32):
-  """numpy配列をPyTorchテンソルに変換（dtypeを統一して学習を安定させる）"""
+  """numpy 配列などを PyTorch テンソルに変換（dtype を統一）"""
   return torch.tensor(x, dtype=dtype)
 
 
 class Agent:
-  """Experience Replay を使わない DQN エージェント"""
+  """Experience Replay を使わない DQN エージェント（Q ネットワーク 1 本）"""
 
   def __init__(self, num_states, num_actions):
     self.num_actions = num_actions
 
-    # Qネットワーク: 状態 → 各行動のQ値
-    # CartPole なら 状態4次元 → 隠れ32 → 隠れ32 → 行動2次元(Q値)
-    self.model = nn.Sequential()
-    self.model.add_module("fc1", nn.Linear(num_states, 32))
-    self.model.add_module("relu1", nn.ReLU())
-    self.model.add_module("fc2", nn.Linear(32, 32))
-    self.model.add_module("relu2", nn.ReLU())
-    self.model.add_module("fc3", nn.Linear(32, num_actions))
+    # Q ネットワーク: 状態 → 各行動の Q 値（CartPole なら 4 → 32 → 32 → 2）
+    self.main_q_network = nn.Sequential(
+      nn.Linear(num_states, 32),
+      nn.ReLU(),
+      nn.Linear(32, 32),
+      nn.ReLU(),
+      nn.Linear(32, num_actions),
+    )
 
-    self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
+    self.optimizer = optim.Adam(self.main_q_network.parameters(), lr=0.001)
 
   def get_action(self, state, episode):
-    """
-    ε-greedy で行動を選択する。
-    エピソードが進むほど ε を小さくし、探索から活用へ移行する。
-    """
+    """ε-greedy で行動を選択する。エピソードが進むほど探索を減らす。"""
     epsilon = 0.5 * (1 / (episode + 1))
-
     if np.random.uniform(0, 1) < epsilon:
       return np.random.randint(0, self.num_actions)
-    else:
-      self.model.eval()
-      with torch.no_grad():
-        x = _to_tensor(state)
-        q = self.model(x)
-        return q.argmax().item()
+    self.main_q_network.eval()
+    with torch.no_grad():
+      x = _to_tensor(state)
+      return self.main_q_network(x).argmax().item()
 
-  def update(self, state, action, reward, next_state):
+  def update_main_q_network(self, state, action, reward, next_state, done):
     """
-    遷移 (state, action, reward, next_state) でQネットワークを1回だけ更新する。
-    TD目標は r + γ * max_a Q(s', a) 。.item() で勾配を切っているので目標側は固定。
+    遷移 1 件で Q ネットワークを 1 回だけ更新する（Experience Replay なし）。
+    TD 目標: r + γ * (1 - done) * max_a' Q(s', a')。終端では次状態の Q を使わない。
     """
-    self.model.train()
+    self.main_q_network.train()
 
     x = _to_tensor(state)
     next_x = _to_tensor(next_state)
 
-    # 現在のQ値: Q(s, a)
-    state_action_value = self.model(x)[action]
+    # 現在の Q 値: Q(s, a)
+    q_sa = self.main_q_network(x)[action]
 
-    # TD目標: r + γ * max_a' Q(s', a')  （s' のQは勾配を流さない）
+    # 次状態の最大 Q 値（勾配を流さない）。終端なら TD 目標に含めない
     with torch.no_grad():
-      next_q_max = self.model(next_x).max().item()
-    expected_state_action_value = _to_tensor(reward + GAMMA * next_q_max)
+      next_q_max = self.main_q_network(next_x).max().item()
+    td_target = reward + GAMMA * next_q_max * (1.0 - float(done))
 
-    # Huber loss（外れ値に強い）で TD 誤差を最小化
-    loss = F.smooth_l1_loss(state_action_value, expected_state_action_value)
-
+    loss = F.smooth_l1_loss(q_sa, _to_tensor(td_target))
     self.optimizer.zero_grad()
     loss.backward()
     self.optimizer.step()
