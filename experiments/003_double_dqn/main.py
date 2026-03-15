@@ -1,7 +1,15 @@
 # type: ignore
+"""
+Double DQN の学習ループ（CartPole）。
+
+終了条件は main の実装のとおり:
+- terminated: ポールが倒れた or カートが画面外 → 報酬 -1, done
+- step == MAX_STEPS - 1: 最大ステップまで生存 → 報酬 +1, done
+- それ以外: 報酬 0, not done
+"""
+
 import gymnasium as gym
 from agent import Agent
-
 
 
 HUMAN_RENDER_MODE = False
@@ -10,24 +18,18 @@ NUM_EPISODES = 1000
 MAX_STEPS = 200
 
 
-
 def calc_reward(terminated, truncated, step):
   """
-  CartPole-v1でtruncatedがTrueになるのは、stepが499以上になった時。
-  今回はMAX_STEPSが200なので、truncatedがTrueになることはない。
-  ---
-  terminatedがTrueになるのは、poleが±13度以上倒れた時か、
-  cartが画面外に出た時。
-  ---
-  戻り値は、報酬とdoneかどうか。
+  報酬と「この遷移でエピソード終了か」を返す。
+  - terminated: ポールが±13度以上 or カートが画面外 → -1, done
+  - step == MAX_STEPS - 1: 最大ステップまで生存 → +1, done
+  - それ以外 → 0, not done
   """
   if terminated:
     return -1.0, True
   if step == MAX_STEPS - 1:
     return 1.0, True
   return 0.0, False
-  
-
 
 
 def main():
@@ -38,35 +40,25 @@ def main():
   )
 
   for episode in range(NUM_EPISODES):
-    state, info = env.reset() # s_0
+    state, info = env.reset()
 
     for step in range(MAX_STEPS):
-      # ε-greedy で行動を選択
       action = agent.get_action(state, episode)
-
       next_state, _reward, terminated, truncated, info = env.step(action)
 
       reward, done = calc_reward(terminated, truncated, step)
-      
-      if done:
-        next_state = None
-      
-      # print(f"step: {step}, done: {done}, next_state: {next_state}")
 
+      # next_state は常に env の返り値のまま保存（done でも最後の観測を入れる）
       agent.memorize(state, action, reward, next_state, done)
-
-      # DDQN & Experience Replay
       agent.update_main_q_network()
 
       state = next_state
 
       if done:
         print(f"Episode {episode+1}/{NUM_EPISODES} finished after {step+1}/{MAX_STEPS} steps")
-        
-        if episode % 2 == 0:
-          agent.update_target_q_network()
-        
         break
+
+  env.close()
 
 
 if __name__ == "__main__":
