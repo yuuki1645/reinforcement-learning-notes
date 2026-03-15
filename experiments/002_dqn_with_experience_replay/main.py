@@ -4,8 +4,11 @@
 DQN（Experience Replay あり）の学習ループ。
 
 Replay バッファに遷移を貯め、ランダムにサンプリングしてミニバッチで学習する。
-CartPole を最大 MAX_STEPS ステップまで行い、報酬はシェイピングで与える。
-10エピソード連続で成功（step >= 196 で終了）したら学習を打ち切る。
+終了条件は 003 と同様:
+- terminated: ポールが倒れた or カートが画面外 → 報酬 -1, done
+- step == MAX_STEPS - 1: 最大ステップまで生存 → 報酬 +1, done
+- それ以外: 報酬 0, not done
+10エピソード連続で成功（MAX_STEPS まで生存）したら学習を打ち切り、結果を JSON に保存する。
 
 使い方:
   python main.py <出力JSONのパス>
@@ -24,23 +27,22 @@ from agent import Agent
 HUMAN_RENDER_MODE = False
 ENV_NAME = "CartPole-v1"
 NUM_EPISODES = 1000
-# 1エピソードの最大ステップ数（これに達したら「成功」とみなす）
+# 1エピソードの最大ステップ数（ここまで生存すれば「成功」）
 MAX_STEPS = 200
 
 
 def calc_reward(terminated, truncated, step):
   """
-  報酬のシェイピング（学習を安定させるための設計した報酬）。
-  - 長く立てていれば +1（step > 195 のとき）
-  - 途中で倒れ or 制限に達したら -1
-  - それ以外は 0
+  報酬と「この遷移でエピソード終了か」を返す（003 と同様）。
+  - terminated: ポールが±13度以上 or カートが画面外 → -1, done
+  - step == MAX_STEPS - 1: 最大ステップまで生存 → +1, done
+  - それ以外 → 0, not done
   """
-  if step > 195:
-    return 1.0
-  elif terminated or truncated:
-    return -1.0
-  else:
-    return 0.0
+  if terminated:
+    return -1.0, True
+  if step == MAX_STEPS - 1:
+    return 1.0, True
+  return 0.0, False
 
 
 def main():
@@ -72,41 +74,32 @@ def main():
     steps_in_episode = 0
 
     for step in range(MAX_STEPS):
-      # ε-greedy で行動を選択
       action = agent.get_action(state, episode)
-
       next_state, _reward, terminated, truncated, info = env.step(action)
-      # 環境の報酬は使わず、シェイピングした報酬で学習
-      reward = calc_reward(terminated, truncated, step)
-      # エピソード終了（失敗・打ち切り）または成功でループを抜けるときは done=True
-      done = terminated or truncated or (step >= 196)
 
-      # 遷移を Replay バッファに追加（done は TD 目標の計算で使用）
+      reward, done = calc_reward(terminated, truncated, step)
+
       agent.memorize(state, action, reward, next_state, done)
-
-      # バッファからサンプルして Q ネットワークを更新
       agent.update()
 
       state = next_state
 
-      # ほぼ最後まで立てていたら「成功」
-      if step >= 196:
-        complete_episodes += 1
+      if done:
         steps_in_episode = step + 1
-        print(f"Episode {episode+1}/{NUM_EPISODES} Clear! | Complete episodes: {complete_episodes}")
+        success = steps_in_episode == MAX_STEPS
+        if success:
+          complete_episodes += 1
+          print(f"Episode {episode+1}/{NUM_EPISODES} Clear! | Complete episodes: {complete_episodes}")
+        else:
+          complete_episodes = 0
+          print(f"Episode {episode+1}/{NUM_EPISODES} finished after {steps_in_episode}/{MAX_STEPS} steps")
         break
 
-      if terminated or truncated:
-        complete_episodes = 0
-        steps_in_episode = step + 1
-        print(f"Episode {episode+1}/{NUM_EPISODES} finished after {step+1}/{MAX_STEPS} steps")
-        break
-
-    # このエピソードの結果を記録
+    # このエピソードの結果を記録（成功 = MAX_STEPS まで生存）
     episodes.append({
       "episode_index": episode,
       "steps": steps_in_episode,
-      "success": steps_in_episode >= 196,
+      "success": steps_in_episode == MAX_STEPS,
     })
 
     if complete_episodes >= 10:
