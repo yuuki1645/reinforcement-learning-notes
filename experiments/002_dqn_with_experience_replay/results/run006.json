@@ -1,9 +1,9 @@
 {
-  "episode_at_10_consecutive_success": 130,
+  "episode_at_10_consecutive_success": 125,
   "episodes": [
     {
       "episode_index": 0,
-      "steps": 11,
+      "steps": 9,
       "success": false
     },
     {
@@ -13,532 +13,532 @@
     },
     {
       "episode_index": 2,
-      "steps": 11,
+      "steps": 8,
       "success": false
     },
     {
       "episode_index": 3,
-      "steps": 11,
+      "steps": 10,
       "success": false
     },
     {
       "episode_index": 4,
-      "steps": 9,
+      "steps": 10,
       "success": false
     },
     {
       "episode_index": 5,
-      "steps": 10,
+      "steps": 11,
       "success": false
     },
     {
       "episode_index": 6,
-      "steps": 9,
+      "steps": 11,
       "success": false
     },
     {
       "episode_index": 7,
-      "steps": 9,
+      "steps": 11,
       "success": false
     },
     {
       "episode_index": 8,
-      "steps": 9,
+      "steps": 15,
       "success": false
     },
     {
       "episode_index": 9,
-      "steps": 8,
+      "steps": 14,
       "success": false
     },
     {
       "episode_index": 10,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 11,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 12,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 13,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 14,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 15,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 16,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 17,
-      "steps": 8,
-      "success": false
-    },
-    {
-      "episode_index": 18,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 19,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 20,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 21,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 22,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 23,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 24,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 25,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 26,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 27,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 28,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 29,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 30,
-      "steps": 15,
-      "success": false
-    },
-    {
-      "episode_index": 31,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 32,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 33,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 34,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 35,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 36,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 37,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 38,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 39,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 40,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 41,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 42,
-      "steps": 22,
-      "success": false
-    },
-    {
-      "episode_index": 43,
-      "steps": 24,
-      "success": false
-    },
-    {
-      "episode_index": 44,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 45,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 46,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 47,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 48,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 49,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 50,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 51,
-      "steps": 8,
-      "success": false
-    },
-    {
-      "episode_index": 52,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 53,
-      "steps": 11,
-      "success": false
-    },
-    {
-      "episode_index": 54,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 55,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 56,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 57,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 58,
-      "steps": 10,
-      "success": false
-    },
-    {
-      "episode_index": 59,
-      "steps": 9,
-      "success": false
-    },
-    {
-      "episode_index": 60,
-      "steps": 18,
-      "success": false
-    },
-    {
-      "episode_index": 61,
-      "steps": 17,
-      "success": false
-    },
-    {
-      "episode_index": 62,
-      "steps": 20,
-      "success": false
-    },
-    {
-      "episode_index": 63,
-      "steps": 17,
-      "success": false
-    },
-    {
-      "episode_index": 64,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 65,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 66,
-      "steps": 15,
-      "success": false
-    },
-    {
-      "episode_index": 67,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 68,
-      "steps": 16,
-      "success": false
-    },
-    {
-      "episode_index": 69,
-      "steps": 16,
-      "success": false
-    },
-    {
-      "episode_index": 70,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 71,
-      "steps": 15,
-      "success": false
-    },
-    {
-      "episode_index": 72,
-      "steps": 13,
-      "success": false
-    },
-    {
-      "episode_index": 73,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 74,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 75,
-      "steps": 12,
-      "success": false
-    },
-    {
-      "episode_index": 76,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 77,
-      "steps": 14,
-      "success": false
-    },
-    {
-      "episode_index": 78,
-      "steps": 17,
-      "success": false
-    },
-    {
-      "episode_index": 79,
-      "steps": 21,
-      "success": false
-    },
-    {
-      "episode_index": 80,
-      "steps": 16,
-      "success": false
-    },
-    {
-      "episode_index": 81,
-      "steps": 25,
-      "success": false
-    },
-    {
-      "episode_index": 82,
-      "steps": 17,
-      "success": false
-    },
-    {
-      "episode_index": 83,
-      "steps": 22,
-      "success": false
-    },
-    {
-      "episode_index": 84,
-      "steps": 27,
-      "success": false
-    },
-    {
-      "episode_index": 85,
-      "steps": 39,
-      "success": false
-    },
-    {
-      "episode_index": 86,
-      "steps": 39,
-      "success": false
-    },
-    {
-      "episode_index": 87,
       "steps": 30,
       "success": false
     },
     {
-      "episode_index": 88,
-      "steps": 37,
+      "episode_index": 11,
+      "steps": 33,
       "success": false
     },
     {
-      "episode_index": 89,
+      "episode_index": 12,
       "steps": 41,
       "success": false
     },
     {
-      "episode_index": 90,
-      "steps": 35,
+      "episode_index": 13,
+      "steps": 37,
       "success": false
     },
     {
-      "episode_index": 91,
-      "steps": 140,
+      "episode_index": 14,
+      "steps": 30,
       "success": false
     },
     {
-      "episode_index": 92,
-      "steps": 88,
+      "episode_index": 15,
+      "steps": 33,
       "success": false
     },
     {
-      "episode_index": 93,
-      "steps": 139,
+      "episode_index": 16,
+      "steps": 34,
       "success": false
     },
     {
-      "episode_index": 94,
-      "steps": 53,
+      "episode_index": 17,
+      "steps": 29,
       "success": false
     },
     {
-      "episode_index": 95,
-      "steps": 72,
+      "episode_index": 18,
+      "steps": 33,
       "success": false
     },
     {
-      "episode_index": 96,
+      "episode_index": 19,
+      "steps": 51,
+      "success": false
+    },
+    {
+      "episode_index": 20,
+      "steps": 74,
+      "success": false
+    },
+    {
+      "episode_index": 21,
+      "steps": 44,
+      "success": false
+    },
+    {
+      "episode_index": 22,
+      "steps": 24,
+      "success": false
+    },
+    {
+      "episode_index": 23,
+      "steps": 24,
+      "success": false
+    },
+    {
+      "episode_index": 24,
+      "steps": 32,
+      "success": false
+    },
+    {
+      "episode_index": 25,
+      "steps": 33,
+      "success": false
+    },
+    {
+      "episode_index": 26,
+      "steps": 36,
+      "success": false
+    },
+    {
+      "episode_index": 27,
+      "steps": 34,
+      "success": false
+    },
+    {
+      "episode_index": 28,
+      "steps": 30,
+      "success": false
+    },
+    {
+      "episode_index": 29,
+      "steps": 19,
+      "success": false
+    },
+    {
+      "episode_index": 30,
+      "steps": 46,
+      "success": false
+    },
+    {
+      "episode_index": 31,
+      "steps": 27,
+      "success": false
+    },
+    {
+      "episode_index": 32,
+      "steps": 23,
+      "success": false
+    },
+    {
+      "episode_index": 33,
+      "steps": 37,
+      "success": false
+    },
+    {
+      "episode_index": 34,
+      "steps": 32,
+      "success": false
+    },
+    {
+      "episode_index": 35,
+      "steps": 45,
+      "success": false
+    },
+    {
+      "episode_index": 36,
+      "steps": 30,
+      "success": false
+    },
+    {
+      "episode_index": 37,
       "steps": 28,
       "success": false
     },
     {
-      "episode_index": 97,
-      "steps": 38,
+      "episode_index": 38,
+      "steps": 18,
       "success": false
     },
     {
-      "episode_index": 98,
-      "steps": 65,
+      "episode_index": 39,
+      "steps": 43,
       "success": false
     },
     {
-      "episode_index": 99,
-      "steps": 35,
+      "episode_index": 40,
+      "steps": 26,
       "success": false
     },
     {
-      "episode_index": 100,
-      "steps": 55,
+      "episode_index": 41,
+      "steps": 51,
       "success": false
     },
     {
-      "episode_index": 101,
-      "steps": 109,
+      "episode_index": 42,
+      "steps": 36,
       "success": false
     },
     {
-      "episode_index": 102,
-      "steps": 38,
+      "episode_index": 43,
+      "steps": 46,
       "success": false
     },
     {
-      "episode_index": 103,
-      "steps": 55,
+      "episode_index": 44,
+      "steps": 26,
       "success": false
     },
     {
-      "episode_index": 104,
+      "episode_index": 45,
+      "steps": 31,
+      "success": false
+    },
+    {
+      "episode_index": 46,
+      "steps": 43,
+      "success": false
+    },
+    {
+      "episode_index": 47,
+      "steps": 29,
+      "success": false
+    },
+    {
+      "episode_index": 48,
       "steps": 53,
       "success": false
     },
     {
-      "episode_index": 105,
+      "episode_index": 49,
+      "steps": 79,
+      "success": false
+    },
+    {
+      "episode_index": 50,
+      "steps": 40,
+      "success": false
+    },
+    {
+      "episode_index": 51,
+      "steps": 57,
+      "success": false
+    },
+    {
+      "episode_index": 52,
+      "steps": 33,
+      "success": false
+    },
+    {
+      "episode_index": 53,
+      "steps": 39,
+      "success": false
+    },
+    {
+      "episode_index": 54,
+      "steps": 37,
+      "success": false
+    },
+    {
+      "episode_index": 55,
+      "steps": 52,
+      "success": false
+    },
+    {
+      "episode_index": 56,
+      "steps": 74,
+      "success": false
+    },
+    {
+      "episode_index": 57,
+      "steps": 79,
+      "success": false
+    },
+    {
+      "episode_index": 58,
+      "steps": 41,
+      "success": false
+    },
+    {
+      "episode_index": 59,
+      "steps": 61,
+      "success": false
+    },
+    {
+      "episode_index": 60,
+      "steps": 61,
+      "success": false
+    },
+    {
+      "episode_index": 61,
+      "steps": 54,
+      "success": false
+    },
+    {
+      "episode_index": 62,
+      "steps": 46,
+      "success": false
+    },
+    {
+      "episode_index": 63,
+      "steps": 55,
+      "success": false
+    },
+    {
+      "episode_index": 64,
+      "steps": 48,
+      "success": false
+    },
+    {
+      "episode_index": 65,
+      "steps": 122,
+      "success": false
+    },
+    {
+      "episode_index": 66,
+      "steps": 72,
+      "success": false
+    },
+    {
+      "episode_index": 67,
+      "steps": 61,
+      "success": false
+    },
+    {
+      "episode_index": 68,
+      "steps": 80,
+      "success": false
+    },
+    {
+      "episode_index": 69,
+      "steps": 74,
+      "success": false
+    },
+    {
+      "episode_index": 70,
+      "steps": 106,
+      "success": false
+    },
+    {
+      "episode_index": 71,
+      "steps": 182,
+      "success": false
+    },
+    {
+      "episode_index": 72,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 73,
+      "steps": 105,
+      "success": false
+    },
+    {
+      "episode_index": 74,
+      "steps": 92,
+      "success": false
+    },
+    {
+      "episode_index": 75,
       "steps": 71,
       "success": false
     },
     {
-      "episode_index": 106,
-      "steps": 66,
+      "episode_index": 76,
+      "steps": 79,
       "success": false
     },
     {
+      "episode_index": 77,
+      "steps": 72,
+      "success": false
+    },
+    {
+      "episode_index": 78,
+      "steps": 63,
+      "success": false
+    },
+    {
+      "episode_index": 79,
+      "steps": 144,
+      "success": false
+    },
+    {
+      "episode_index": 80,
+      "steps": 67,
+      "success": false
+    },
+    {
+      "episode_index": 81,
+      "steps": 70,
+      "success": false
+    },
+    {
+      "episode_index": 82,
+      "steps": 95,
+      "success": false
+    },
+    {
+      "episode_index": 83,
+      "steps": 177,
+      "success": false
+    },
+    {
+      "episode_index": 84,
+      "steps": 106,
+      "success": false
+    },
+    {
+      "episode_index": 85,
+      "steps": 185,
+      "success": false
+    },
+    {
+      "episode_index": 86,
+      "steps": 104,
+      "success": false
+    },
+    {
+      "episode_index": 87,
+      "steps": 147,
+      "success": false
+    },
+    {
+      "episode_index": 88,
+      "steps": 126,
+      "success": false
+    },
+    {
+      "episode_index": 89,
+      "steps": 130,
+      "success": false
+    },
+    {
+      "episode_index": 90,
+      "steps": 141,
+      "success": false
+    },
+    {
+      "episode_index": 91,
+      "steps": 190,
+      "success": false
+    },
+    {
+      "episode_index": 92,
+      "steps": 136,
+      "success": false
+    },
+    {
+      "episode_index": 93,
+      "steps": 179,
+      "success": false
+    },
+    {
+      "episode_index": 94,
+      "steps": 153,
+      "success": false
+    },
+    {
+      "episode_index": 95,
+      "steps": 175,
+      "success": false
+    },
+    {
+      "episode_index": 96,
+      "steps": 189,
+      "success": false
+    },
+    {
+      "episode_index": 97,
+      "steps": 193,
+      "success": false
+    },
+    {
+      "episode_index": 98,
+      "steps": 175,
+      "success": false
+    },
+    {
+      "episode_index": 99,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 100,
+      "steps": 194,
+      "success": false
+    },
+    {
+      "episode_index": 101,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 102,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 103,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 104,
+      "steps": 181,
+      "success": false
+    },
+    {
+      "episode_index": 105,
+      "steps": 197,
+      "success": true
+    },
+    {
+      "episode_index": 106,
+      "steps": 197,
+      "success": true
+    },
+    {
       "episode_index": 107,
-      "steps": 61,
+      "steps": 178,
       "success": false
     },
     {
@@ -548,18 +548,18 @@
     },
     {
       "episode_index": 109,
-      "steps": 132,
+      "steps": 185,
       "success": false
     },
     {
       "episode_index": 110,
-      "steps": 191,
-      "success": false
+      "steps": 197,
+      "success": true
     },
     {
       "episode_index": 111,
-      "steps": 197,
-      "success": true
+      "steps": 183,
+      "success": false
     },
     {
       "episode_index": 112,
@@ -568,12 +568,12 @@
     },
     {
       "episode_index": 113,
-      "steps": 197,
-      "success": true
+      "steps": 194,
+      "success": false
     },
     {
       "episode_index": 114,
-      "steps": 125,
+      "steps": 181,
       "success": false
     },
     {
@@ -593,13 +593,13 @@
     },
     {
       "episode_index": 118,
-      "steps": 157,
-      "success": false
+      "steps": 197,
+      "success": true
     },
     {
       "episode_index": 119,
-      "steps": 130,
-      "success": false
+      "steps": 197,
+      "success": true
     },
     {
       "episode_index": 120,
@@ -623,31 +623,6 @@
     },
     {
       "episode_index": 124,
-      "steps": 197,
-      "success": true
-    },
-    {
-      "episode_index": 125,
-      "steps": 197,
-      "success": true
-    },
-    {
-      "episode_index": 126,
-      "steps": 197,
-      "success": true
-    },
-    {
-      "episode_index": 127,
-      "steps": 197,
-      "success": true
-    },
-    {
-      "episode_index": 128,
-      "steps": 197,
-      "success": true
-    },
-    {
-      "episode_index": 129,
       "steps": 197,
       "success": true
     }

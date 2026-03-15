@@ -2,7 +2,8 @@
 DQN エージェント（Experience Replay あり版）
 
 Replay バッファに貯めた遷移をランダムにサンプリングし、
-ミニバッチで TD 学習する。終端状態（done）では次状態の Q を使わない。
+メインの Q ネットワークだけでミニバッチ TD 学習する。
+ターゲットネットワークは使わない。終端状態（done）では次状態の Q を使わない。
 """
 
 import numpy as np
@@ -38,7 +39,7 @@ class Agent:
     self.model.add_module("relu2", nn.ReLU())
     self.model.add_module("fc3", nn.Linear(32, num_actions))
 
-    self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
+    self.optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
     self.memory = ReplayMemory(capacity=10000)
 
   def get_action(self, state, episode):
@@ -63,7 +64,8 @@ class Agent:
 
   def update(self):
     """
-    Replay バッファから BATCH_SIZE 件サンプルし、TD 誤差で Q ネットワークを更新する。
+    Replay バッファから BATCH_SIZE 件サンプルし、メインの Q ネットワークだけで
+    TD 誤差を最小化する。TD 目標の max Q(s',a') も同じ model で計算（ターゲットネットワークなし）。
     TD 目標: r + γ * (1 - done) * max_a' Q(s', a')  （done のときは r のみ）
     """
     if len(self.memory) < BATCH_SIZE:
@@ -71,10 +73,10 @@ class Agent:
 
     state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.memory.sample(BATCH_SIZE)
 
-    # 現在の Q 値: Q(s_t, a_t)。gather で選んだ行動の Q だけ取り出す
+    # 現在の Q 値: Q(s_t, a_t)
     state_action_values = self.model(state_batch).gather(dim=1, index=action_batch)
 
-    # 次状態の最大 Q 値（勾配を流さない）。終端なら使わない
+    # TD 目標用の max Q(s', a')（同じ model、勾配は流さない）
     with torch.no_grad():
       next_state_action_values = self.model(next_state_batch).max(dim=1)[0]
     # TD 目標: 終端でないときだけ γ * max Q(s') を足す
