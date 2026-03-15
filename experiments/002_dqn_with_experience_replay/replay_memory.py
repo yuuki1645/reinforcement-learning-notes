@@ -3,7 +3,7 @@ Experience Replay 用のバッファ。
 
 遷移 (state, action, reward, next_state, done) を貯め、
 ランダムにサンプリングしてミニバッチ学習に使う。
-done は「その遷移でエピソードが終わったか」を表し、TD 目標の計算で使用する。
+next_state は常に観測配列（done でも env が返す最後の状態を保存する）。
 """
 
 from collections import namedtuple
@@ -37,8 +37,8 @@ class ReplayMemory:
 
   def sample(self, batch_size):
     """
-    バッファからランダムに batch_size 件の遷移をサンプルし、
-    PyTorch のテンソル（バッチ）として返す。
+    バッファからランダムに batch_size 件サンプルし、
+    すべて (batch_size, ...) の固定長テンソルで返す。
     np.array で一度まとめてから tensor にすることで変換を速くしている。
     """
     samples = random.sample(self.memory, batch_size)

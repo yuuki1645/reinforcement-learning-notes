@@ -80,7 +80,7 @@ def main():
       reward, done = calc_reward(terminated, truncated, step)
 
       agent.memorize(state, action, reward, next_state, done)
-      agent.update()
+      agent.update_main_q_network()
 
       state = next_state
 
