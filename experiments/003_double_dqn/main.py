@@ -22,9 +22,11 @@ import gymnasium as gym
 from agent import Agent
 
 
+# 描画するか（False にすると学習が速い）
 HUMAN_RENDER_MODE = False
 ENV_NAME = "CartPole-v1"
 NUM_EPISODES = 1000
+# 1エピソードの最大ステップ数（ここまで生存すれば「成功」）
 MAX_STEPS = 200
 
 
@@ -43,6 +45,7 @@ def calc_reward(terminated, truncated, step):
 
 
 def main():
+  # コマンドライン引数: 結果を書き出す JSON のパス
   parser = argparse.ArgumentParser(description="Double DQN で CartPole を学習し、結果をJSONに出力する")
   parser.add_argument(
     "output_path",
@@ -58,8 +61,11 @@ def main():
     num_actions=env.action_space.n,
   )
 
+  # 各エピソードの結果を記録（JSON 出力用）
   episodes = []
+  # 10回連続成功に達したときのエピソード番号（1始まり）。未達なら None
   episode_at_10_consecutive_success = None
+  # いま何エピソード連続で「成功」しているか
   complete_episodes = 0
 
   for episode in range(NUM_EPISODES):
@@ -72,6 +78,7 @@ def main():
 
       reward, done = calc_reward(terminated, truncated, step)
 
+      # 遷移を Replay に追加し、Main Q を更新（Double DQN + ターゲットは agent 内で同期）
       agent.memorize(state, action, reward, next_state, done)
       agent.update_main_q_network()
 
@@ -88,6 +95,7 @@ def main():
           print(f"Episode {episode+1}/{NUM_EPISODES} finished after {steps_in_episode}/{MAX_STEPS} steps")
         break
 
+    # このエピソードの結果を記録（成功 = MAX_STEPS まで生存）
     episodes.append({
       "episode_index": episode,
       "steps": steps_in_episode,
@@ -101,6 +109,7 @@ def main():
 
   env.close()
 
+  # 結果を JSON で保存
   output_data = {
     "episode_at_10_consecutive_success": episode_at_10_consecutive_success,
     "episodes": episodes,

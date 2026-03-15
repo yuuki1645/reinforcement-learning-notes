@@ -13,6 +13,7 @@ import numpy as np
 import torch
 
 
+# 1 件の遷移を表す型（state, action, reward, next_state, done）
 Transition = namedtuple("Transition", ("state", "action", "reward", "next_state", "done"))
 
 
@@ -22,7 +23,7 @@ class ReplayMemory:
   def __init__(self, capacity):
     self.capacity = capacity
     self.memory = []
-    self.index = 0
+    self.index = 0  # 次に書き込む位置
 
   def push(self, state, action, reward, next_state, done):
     """遷移を 1 件追加する。満杯なら最も古いものを上書き。"""
@@ -38,6 +39,7 @@ class ReplayMemory:
     """
     バッファからランダムに batch_size 件サンプルし、
     すべて (batch_size, ...) の固定長テンソルで返す。
+    np.array で一度まとめてから tensor にすることで変換を速くしている。
     """
     samples = random.sample(self.memory, batch_size)
     states = np.array([s.state for s in samples], dtype=np.float32)
@@ -47,7 +49,7 @@ class ReplayMemory:
     dones = np.array([s.done for s in samples], dtype=np.float32)
     return (
       torch.tensor(states),
-      torch.tensor(actions).unsqueeze(1),
+      torch.tensor(actions).unsqueeze(1),  # gather 用に (batch, 1) に
       torch.tensor(rewards),
       torch.tensor(next_states),
       torch.tensor(dones),
