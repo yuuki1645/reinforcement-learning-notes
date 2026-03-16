@@ -13,6 +13,9 @@ import torch.nn.functional as F
 import torch.optim as optim
 from net import Net
 from replay_memory import ReplayMemory
+from replay_memory import Transition
+from td_error_memory import TDerrorMemory
+
 
 
 # 1回の更新で使う遷移数
@@ -44,6 +47,9 @@ class Agent:
     self.optimizer = optim.Adam(self.main_q_network.parameters(), lr=0.0001)
     self._n_updates = 0  # update 回数（ターゲット同期のタイミング用）
 
+    # TD誤差のメモリオブジェクトを作成
+    self.td_error_memory = TDerrorMemory(capacity=10000)
+
   def get_action(self, state, episode):
     """ε-greedy で行動を選択する。エピソードが進むほど探索を減らす。"""
     epsilon = 0.5 * (1 / (episode + 1))
@@ -58,7 +64,7 @@ class Agent:
     """遷移を Replay バッファに追加する。"""
     self.memory.push(state, action, reward, next_state, done)
 
-  def update_main_q_network(self):
+  def update_main_q_network(self, episode):
     """
     Replay からミニバッチをサンプルし、Double DQN で Main Q を更新する。
     TD 目標の「次状態の最大 Q」は、Main で行動を決め・Target で Q を評価する。
@@ -67,7 +73,15 @@ class Agent:
     if len(self.memory) < BATCH_SIZE:
       return
 
-    state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.memory.sample(BATCH_SIZE)
+    # 学習の初期段階ではPrioritized Experience Replayを使用しない
+    # if episode < 30:
+    if episode < 5:
+      state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.memory.sample(BATCH_SIZE)
+    else:
+      # TD誤差に応じてミニバッチを取り出す
+      indexes = self.td_error_memory.get_prioritized_indexes(BATCH_SIZE)
+      state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.memory.sample_prioritized(indexes)
+
     device = state_batch.device
     done_batch = done_batch.to(device)
 
@@ -94,3 +108,49 @@ class Agent:
     self._n_updates += 1
     if self._n_updates % TARGET_UPDATE_INTERVAL == 0:
       self.target_q_network.load_state_dict(self.main_q_network.state_dict())
+
+  def update_td_error_memory(self):
+    self.main_q_network.eval()
+    self.target_q_network.eval()
+
+    transitions = self.memory.memory
+    batch = Transition(*zip(*transitions))
+
+    # リプレイに貯めた遷移は numpy のため、テンソルに変換してから cat/stack
+    state_batch = _to_tensor(np.array(batch.state, dtype=np.float32))
+    action_batch = torch.tensor(batch.action, dtype=torch.int64).unsqueeze(1)
+    reward_batch = _to_tensor(np.array(batch.reward, dtype=np.float32))
+    next_state_batch = _to_tensor(np.array(batch.next_state, dtype=np.float32))
+    done_batch = _to_tensor(np.array(batch.done, dtype=np.float32))
+
+    # print(f"state_batch: {state_batch}")
+    # print(f"state_batch.shape: {state_batch.shape}")
+    # print(f"action_batch: {action_batch}")
+    # print(f"action_batch.shape: {action_batch.shape}")
+    # print(f"next_state_batch: {next_state_batch}")
+    # print(f"next_state_batch.shape: {next_state_batch.shape}")
+
+    # ネットワークが出力したQ(s_t, a_t)を求める
+    q_sa = self.main_q_network(state_batch).gather(1, action_batch)
+    # print(f"q_sa: {q_sa}")
+    # print(f"q_sa.shape: {q_sa.shape}")
+    
+    # 次の状態での最大Q値の行動をMain Q-Networkから求める
+    best_actions_next = self.main_q_network(next_state_batch).argmax(dim=1, keepdim=True)
+    # print(f"best_actions_next: {best_actions_next}")
+    # print(f"best_actions_next.shape: {best_actions_next.shape}")
+    
+    # Target Q-NetworkからQ(s_t+1, a_t+1)を求める
+    q_next = self.target_q_network(next_state_batch).gather(1, best_actions_next)
+    # print(f"q_next: {q_next}")
+    # print(f"q_next.shape: {q_next.shape}")
+    
+    # print(f"reward_batch: {reward_batch}")
+    # print(f"reward_batch.shape: {reward_batch.shape}")
+
+    # TD誤差を計算
+    td_errors = (reward_batch + GAMMA * q_next.squeeze(1) * (1.0 - done_batch)) - q_sa.squeeze(1)
+    # print(f"td_errors: {td_errors}")
+    # print(f"td_errors.shape: {td_errors.shape}")
+
+    self.td_error_memory.memory = td_errors.detach().cpu().numpy().tolist()

@@ -54,3 +54,18 @@ class ReplayMemory:
       torch.tensor(next_states),
       torch.tensor(dones),
     )
+
+  def sample_prioritized(self, indexes):
+    samples = [self.memory[i] for i in indexes]
+    states = np.array([s.state for s in samples], dtype=np.float32)
+    actions = np.array([s.action for s in samples], dtype=np.int64)
+    rewards = np.array([s.reward for s in samples], dtype=np.float32)
+    next_states = np.array([s.next_state for s in samples], dtype=np.float32)
+    dones = np.array([s.done for s in samples], dtype=np.float32)
+    return (
+      torch.tensor(states),
+      torch.tensor(actions).unsqueeze(1),  # gather 用に (batch, 1) に
+      torch.tensor(rewards),
+      torch.tensor(next_states),
+      torch.tensor(dones),
+    )

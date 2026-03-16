@@ -80,7 +80,11 @@ def main():
 
       # 遷移を Replay に追加し、Main Q を更新（Double DQN + ターゲットは agent 内で同期）
       agent.memorize(state, action, reward, next_state, done)
-      agent.update_main_q_network()
+
+      # TD誤差メモリにTD誤差を追加
+      agent.td_error_memory.push(0)
+
+      agent.update_main_q_network(episode)
 
       state = next_state
 
@@ -93,6 +97,10 @@ def main():
         else:
           complete_episodes = 0
           print(f"Episode {episode+1}/{NUM_EPISODES} finished after {steps_in_episode}/{MAX_STEPS} steps")
+        
+        # TD誤差メモリの中身を更新する
+        agent.update_td_error_memory()
+
         break
 
     # このエピソードの結果を記録（成功 = MAX_STEPS まで生存）
