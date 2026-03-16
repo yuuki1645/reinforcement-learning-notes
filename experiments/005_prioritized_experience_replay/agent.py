@@ -74,8 +74,7 @@ class Agent:
       return
 
     # 学習の初期段階ではPrioritized Experience Replayを使用しない
-    # if episode < 30:
-    if episode < 5:
+    if episode < 30:
       state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.memory.sample(BATCH_SIZE)
     else:
       # TD誤差に応じてミニバッチを取り出す
